@@ -11,7 +11,7 @@ require 'cek.php';
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Barang Masuk</title>
+        <title>StocBarang</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -28,7 +28,7 @@ require 'cek.php';
                 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                        <a class="nav-link" href="index.php">
+                            <a class="nav-link" href="index.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Stock Barang
                             </a>
@@ -39,14 +39,14 @@ require 'cek.php';
                             <a class="nav-link" href="keluar.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Barang Keluar
-                            </a>         
+                            </a>        
                             <a class="nav-link" href="admin.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Kelola Admin
-                            </a>              
+                            </a>             
                             <a class="nav-link" href="logout.php">
                                 LogOut
-                            </a>                    
+                            </a>                     
                         </div>
                     </div>
                 </nav>
@@ -54,78 +54,75 @@ require 'cek.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Barang Masuk</h1>
+                        <h1 class="mt-4">Kelola Admin</h1>
                         <div class="card mb-4">
                             <div class="card-header">
                                 <!-- Button to Open the Modal -->
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Tambah Barang
+                                Tambah Admin
                                 </button>
                             </div>
                             <div class="card-body">
+
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal</th>
-                                            <th>Nma Barang</th>
-                                            <th>Jumlah</th>
-                                            <th>Keterangan</th>
+                                            <th>No</th>
+                                            <th>Email Admin</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php
-                                        $ambilsemuadatastock = mysqli_query($conn,"select * from masuk m, stock s where s.idbarang = m.idbarang");
-                                        while($data=mysqli_fetch_array($ambilsemuadatastock)){
-                                            $idb = $data['idbarang'];
-                                            $idm = $data['idmasuk'];
-                                            $tanggal = $data['tanggal'];
-                                            $namabarang = $data['namabarang'];
-                                            $qty = $data['qty'];
-                                            $keterangan = $data['keterangan'];
-                                    ?>
+
+                                        <?php
+                                        $ambilsemuadataadmin = mysqli_query($conn,"select * from login");
+                                        $i = 1;
+                                        while($data=mysqli_fetch_array($ambilsemuadataadmin)){
+                                            
+                                            $em = $data['email'];
+                                            $iduser = $data['iduser'];
+                                            $pw = $data['password'];
+                                        ?>
                                         <tr>
-                                            <td><?=$tanggal; ?></td>
-                                            <td><?=$namabarang; ?></td>
-                                            <td><?=$qty; ?></td>
-                                            <td><?=$keterangan; ?></td>
+                                            <td><?=$i++; ?></td>
+                                            <td><?=$em; ?></td>
                                             <td>
-                                            <button type="button" class="btn btn-warning ms-auto" data-bs-toggle="modal" data-bs-target="#edit<?=$idm;?>">
+                                            <button type="button" class="btn btn-warning ms-auto" data-bs-toggle="modal" data-bs-target="#edit<?=$iduser;?>">
                                             Edit
                                             </button>
                                             
-                                            <button type="button" class="btn btn-danger me-auto" data-bs-toggle="modal" data-bs-target="#delete<?=$idm;?>">
+                                            <button type="button" class="btn btn-danger me-auto" data-bs-toggle="modal" data-bs-target="#delete<?=$iduser;?>">
                                             Delete
                                             </button>
 
                                             </td>
                                         </tr>
+
                                                 <!-- Edit Modal -->
-                                            <div class="modal fade" id="edit<?=$idm;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
+                                        <div class="modal fade" id="edit<?=$iduser;?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
 
-                                                        <!-- modal header -->
-                                                        <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Barang Masuk</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
+                                                <!-- modal header -->
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Admin</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
 
-                                                        <!-- modal body -->
-                                                        <form method="post">
-                                                        <div class="modal-body">
-                                                        <input type="text" name="keterangan" value="<?=$keterangan;?>" class="form-control" required>
-                                                        <br>
-                                                        <input type="number" name="qty" value="<?=$qty;?>" class="form-control" required>
-                                                        <br>
-                                                        <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                        <input type="hidden" name="idm" value="<?=$idm;?>">
-                                                        </div>    
-                                                        <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
-                                                        </form>
+                                                <!-- modal body -->
+                                            <form method="post">
+                                            <div class="modal-body">
+                                                <input type="email" name="emailadmin" value="<?=$em;?>" class="form-control" placeholder="Email" required>
+                                                <br>
+                                                <input type="password" name="passwordbaru" class="form-control" value="<?= $pw;?>" placeholder="Password" >
+                                                <br>
+                                                <input type="hidden" name="id" value="<?=$iduser;?>">
+                                            </div>    
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary" name="updateadmin">Submit</button>
+                                                </form>
                                             </div>    
                                             </div>
                                             </div>
@@ -133,7 +130,7 @@ require 'cek.php';
                                         </div>
 
                                            <!-- Delete Modal -->
-                                           <div class="modal fade" id="delete<?=$idm;?>">
+                                           <div class="modal fade" id="delete<?=$iduser;?>">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -143,14 +140,12 @@ require 'cek.php';
 
                                                         <form method="post">
                                                             <div class="modal-body">
-                                                                Apakah Anda yakin ingin menghapus <?=$namabarang;?>?
-                                                                <input type="hidden" name="idb" value="<?=$idb;?>">
-                                                                <input type="hidden" name="kty" value="<?=$qty;?>">
-                                                                <input type="hidden" name="idm" value="<?=$idm;?>">
+                                                                Apakah Anda yakin ingin menghapus <?=$em;?>?
+                                                                <input type="hidden" name="id" value="<?=$iduser;?>">
                                                                 <br>
                                                                 <br>
                                                                 <div class="modal-footer"></div>
-                                                                <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Delete</button>
+                                                                <button type="submit" class="btn btn-danger" name="hapusadmin">Delete</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -161,13 +156,19 @@ require 'cek.php';
 
                                         </div>
                                         </div>
-                                    <?php
+                                        
+
+                                                
+
+                                        <?php
                                         };
-                                    ?>                                      
-                                        </tbody>
-                                    </table>
-                                </div>
+
+
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
+                        </div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -192,45 +193,29 @@ require 'cek.php';
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- modal header -->
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Barang Masuk</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Admin</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                    <!-- modal body -->
                    <form method="post">
                 <div class="modal-body">
-
-                    <select name="barangnya" class="form-control">
-                        <?php
-                            $ambilsemuadatanya = mysqli_query($conn,"select * from stock");
-                            while($fetcharray = mysqli_fetch_array($ambilsemuadatanya)){
-                                $namabarangnya = $fetcharray['namabarang'];
-                                $idbarangnya = $fetcharray['idbarang'];
-                        ?>
-
-                        <option value="<?=$idbarangnya; ?>"><?=$namabarangnya; ?></option>
-
-                        <?php
-                            }
-                        ?>
-                    </select>
+                    <input type="email" name="email" placeholder="Email" class="form-control" required>
                     <br>
-                    <input type="number" name="qty" placeholder="Quantity" class="form-control" required>
+                    <input type="password" name="password" placeholder="Password" class="form-control" required>
                     <br>
-                    <input type="text" name="penerima" placeholder="Penerima" class="form-control" required>
                 </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
-                    </form>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="addadmin">Submit</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-    </div>
+        </div>
 </html>

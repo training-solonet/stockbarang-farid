@@ -39,7 +39,11 @@ require 'cek.php';
                             <a class="nav-link" href="keluar.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Barang Keluar
-                            </a>            
+                            </a>        
+                            <a class="nav-link" href="admin.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Kelola Admin
+                            </a>             
                             <a class="nav-link" href="logout.php">
                                 LogOut
                             </a>                     
@@ -60,11 +64,29 @@ require 'cek.php';
                                 </button>
                             </div>
                             <div class="card-body">
+
+                            <?php
+                                $ambildatastock = mysqli_query($conn,"select * from stock where stock < 1");
+                                
+                                while ($fetch=mysqli_fetch_array($ambildatastock)){
+                                    $barang = $fetch['namabarang'];
+                            ?>
+                                
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Perhatian!</strong> Stock Barang <?=$barang;?> Telah Habis
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+
+                            <?php
+                                
+                                }
+                            ?>
+
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nma Barang</th>
+                                            <th>Nama Barang</th>
                                             <th>Deskripsi</th>
                                             <th>Stock</th>
                                             <th>Aksi</th>
@@ -88,11 +110,11 @@ require 'cek.php';
                                             <td><?=$deskripsi; ?></td>
                                             <td><?=$stock; ?></td>
                                             <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$idb;?>">
+                                            <button type="button" class="btn btn-warning ms-auto" data-bs-toggle="modal" data-bs-target="#edit<?=$idb;?>">
                                             Edit
                                             </button>
                                             
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idb;?>">
+                                            <button type="button" class="btn btn-danger me-auto" data-bs-toggle="modal" data-bs-target="#delete<?=$idb;?>">
                                             Delete
                                             </button>
 
@@ -105,7 +127,7 @@ require 'cek.php';
                                             <div class="modal-content">
                                                 <!-- modal header -->
                                             <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Barang</h1>
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Stock Barang</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
